@@ -144,20 +144,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include=".\include\Car.h" />
+    <ClInclude Include="include\Car.hpp" />
     <ClInclude Include="include\Common.h" />
-    <ClInclude Include=".\include\Map.h" />
-    <ClInclude Include=".\include\Plane.h" />
+    <ClInclude Include="include\Map.hpp" />
+    <ClInclude Include="include\Plane.hpp" />
     <ClInclude Include=".\include\Random.hpp" />
-    <ClInclude Include=".\include\Round.h" />
+    <ClInclude Include="include\Game.h" />
     <ClInclude Include=".\include\Tower.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include=".\src\Car.cpp" />
     <ClCompile Include=".\src\Main.cpp" />
-    <ClCompile Include=".\src\Map.cpp" />
-    <ClCompile Include=".\src\Plane.cpp" />
-    <ClCompile Include=".\src\Round.cpp" />
+    <ClCompile Include="src\Game.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

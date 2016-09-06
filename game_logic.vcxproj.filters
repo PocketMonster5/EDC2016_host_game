@@ -15,19 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include=".\include\Car.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include=".\include\Map.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include=".\include\Plane.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include=".\include\Random.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include=".\include\Round.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include=".\include\Tower.hpp">
@@ -36,21 +24,24 @@
     <ClInclude Include="include\Common.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\Car.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Map.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Plane.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Game.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include=".\src\Car.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include=".\src\Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include=".\src\Map.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include=".\src\Plane.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include=".\src\Round.cpp">
+    <ClCompile Include="src\Game.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

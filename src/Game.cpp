@@ -1,25 +1,37 @@
-#include "Round.h"
+#include "Game.h"
 #include <iostream>
 
-
-void Round::Refresh(const Point & p1, const Point & p2, const Point & pp)
+Game::Game(std::string filename)
+    : _map(filename)
+    , _game_status(Running)
+    , _round_count(0)
 {
+
+}
+
+void Game::Refresh(const Point & p1, const Point & p2, const Point & pp)
+{
+    //刷新所有位置
     _car[0].Refresh(p1, _map.GetPointColor(p1));
     _car[1].Refresh(p2, _map.GetPointColor(p2));
     _plane.Refresh(pp, _map.GetPointColor(_map.GetFocus()));
 
-
+    //道具
     CheckProp(_car[Red]);
     CheckProp(_car[Blue]);
+    //TODO 道具的产生和更新
 
+    //血量计算
     SettleDamage();
 
+    //检查地图
     RefreshTower();
 
+    //判断游戏是否结束
     Judge();
 }
 
-void Round::CheckProp(Car& car_prop)
+void Game::CheckProp(Car& car_prop)
 {
     if (car_prop.GetPoint() == _map.GetPropPos())
     {
@@ -41,21 +53,21 @@ void Round::CheckProp(Car& car_prop)
         _map.RefreshProp();
     }
 }
-void Round::ShortAttack(CarName car_name) {
+void Game::ShortAttack(CarName car_name) {
     _car[car_name].ShortAttackedByMap();
     _map.ShortAttack();
 }
-void Round::LongAttack(CarName car_name) {
+void Game::LongAttack(CarName car_name) {
     _car[car_name].LongAttackedByMap();
     _map.LongAttack();
 }
 
-void Round::Attack(CarName car_name, bool critical)
+void Game::Attack(CarName car_name, bool critical)
 {
     _car[car_name].AttackedByMap(critical);
 }
 
-void Round::SettleDamage() {
+void Game::SettleDamage() {
     Point r_pos = _car[Red].GetPoint();
     Point b_pos = _car[Blue].GetPoint();
 
@@ -108,7 +120,7 @@ void Round::SettleDamage() {
 
 
 }
-void Round::RefreshTower() {
+void Game::RefreshTower() {
     if (!IsTower) {
         TowerSuspend++;
         if (TowerSuspend == TOWER_SUSPEND) _map.RefreshTower();
@@ -121,13 +133,13 @@ void Round::RefreshTower() {
     }
 }
 
-void Round::Judge()
+void Game::Judge()
 {
-    if (RoundCount < MAX_ROUND)//当比赛还有剩余时间
+    if (_round_count < MAX_ROUND)//当比赛还有剩余时间
     {
         if (_car[Red].IsAlive() && _car[Blue].IsAlive()) //比赛继续
         {
-            RoundCount++;
+            _round_count++;
             _game_status = Running;
         }
         else if (!_car[Red].IsAlive() && !_car[Blue].IsAlive()) //同时死亡，平局
@@ -164,10 +176,5 @@ void Round::Judge()
     }
 }
 
-Round::Round()
-    : _map("./data/test.txt")
-    , _game_status(Running)
-{
-    RoundCount = 0;
-}
+
 
