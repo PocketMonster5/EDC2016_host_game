@@ -104,7 +104,7 @@ private:
             // select another tower with a different color
             unsigned char color = GetPointColor(_targets[_focus]);//the color of current focus
 
-            for (int i = 0; i < _targets_size; ++i)          //num用来记录备选target数目
+            for (int i = 0; i < _targets_size; ++i)  
                 if (i != _focus && GetPointColor(_targets[i]) != color)
                     temp.push_back(i);
 
