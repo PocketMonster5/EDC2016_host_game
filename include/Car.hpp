@@ -12,7 +12,7 @@ public:
         ResetCar();
     }
 
-    //修改当前位置；将和血量相关的三个布尔型状态设为false；检查制空权回合数
+    //修改当前位置；将和血量相关的四个布尔型状态设为false；检查制空权回合数
     void Refresh(Point p, unsigned char c)
     {
         _pos = p;

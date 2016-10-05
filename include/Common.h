@@ -14,7 +14,7 @@
 
  // const int MAP_SIZE = 256;//地图尺寸，已改为从文件读取
 const int MAX_ROUND = 3000;//至多进行3000回合（限制比赛时间）
-const int TOWER_SUSPEND = 40; //多少回合不会出现塔
+const int TARGET_SUSPEND = 40; //多少回合不会出现塔
 
 // Car 参数
 const double DEATH_BlOOD = 0;       // 最低血量
@@ -31,10 +31,10 @@ const double ATTACK_RADIUS = 50;    // 攻击半径
 const double HEAL_RADUIS = 100;     // 治疗半径
 enum PlaneStatus { PlaneNone, PlaneAttack, PlaneHeal };
 
-// Tower 参数
-extern bool IsTower; //塔是否存在
-extern int TowerSuspend; //当前已经有多少回合没有出现塔
-const double TOWER_HEALTH = 100;    // 目标点点数
+// Target 参数
+extern bool IsTarget; //塔是否存在
+extern int TargetSuspend; //当前已经有多少回合没有出现塔
+const double TARGET_HEALTH = 100;    // 目标点点数
 const double SHORT_ATTACK = 10;     // 目标点暴击消耗点数
 const double LONG_ATTACK = 2;       // 目标点普攻消耗点数
 const double CRITICAL_DISTANCE = 50;// 远/近攻击（暴击/普攻）的临界距离

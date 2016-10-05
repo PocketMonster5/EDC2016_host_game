@@ -21,14 +21,17 @@ void Game::Refresh(const Point & p1, const Point & p2, const Point & pp)
     CheckProp(_car[Blue]);
     //TODO 道具的产生和更新
 
+
     //血量计算
     SettleDamage();
 
     //检查地图
-    RefreshTower();
+    RefreshTarget();
 
     //判断游戏是否结束
-    Judge();
+    Judge();	
+	
+	//修改gameData的位置信息
 }
 
 void Game::CheckProp(Car& car_prop)
@@ -43,7 +46,7 @@ void Game::CheckProp(Car& car_prop)
             car_prop.HealByProp();
             break;
         case PropBW: //道具2：（BlackWhite）
-            _map.RefreshTower(true);
+            _map.RefreshTarget(true);
             _plane.SetPlaneStatus(_map.GetPointColor(_map.GetFocus()));
             break;
         case PropAC: //道具3： （AC）
@@ -71,7 +74,7 @@ void Game::SettleDamage() {
     Point r_pos = _car[Red].GetPoint();
     Point b_pos = _car[Blue].GetPoint();
 
-    if (IsTower) {
+    if (IsTarget) {
 
         Point focus_pos = _map.GetFocus();
         unsigned char tower_color = _map.GetPointColor(focus_pos)
@@ -120,15 +123,15 @@ void Game::SettleDamage() {
 
 
 }
-void Game::RefreshTower() {
-    if (!IsTower) {
-        TowerSuspend++;
-        if (TowerSuspend == TOWER_SUSPEND) _map.RefreshTower();
+void Game::RefreshTarget() {
+    if (!IsTarget) {
+        TargetSuspend++;
+        if (TargetSuspend == TARGET_SUSPEND) _map.RefreshTarget();
     }
     else {
-        if (_map.GetTowerHealth() < 0) {
-            IsTower = false;
-            TowerSuspend = 0;
+        if (_map.GetTargetHealth() < 0) {
+            IsTarget = false;
+            TargetSuspend = 0;
         }
     }
 }

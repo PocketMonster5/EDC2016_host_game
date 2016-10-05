@@ -148,11 +148,12 @@
   <ItemGroup>
     <ClInclude Include="include\Car.hpp" />
     <ClInclude Include="include\Common.h" />
+    <ClInclude Include="include\GameData.h" />
     <ClInclude Include="include\Map.hpp" />
     <ClInclude Include="include\Plane.hpp" />
     <ClInclude Include=".\include\Random.hpp" />
     <ClInclude Include="include\Game.h" />
-    <ClInclude Include=".\include\Tower.hpp" />
+    <ClInclude Include="include\Target.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include=".\src\Main.cpp" />

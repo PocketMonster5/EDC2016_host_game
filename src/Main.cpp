@@ -5,15 +5,15 @@
 
 using namespace std;
 
-int TowerSuspend = 0;  //TODO 移动到合适的位置
-bool IsTower = false; //TODO
+int TargetSuspend = 0;  //TODO 移动到合适的位置
+bool IsTarget = false; //TODO
 
 int test_Map() {
     Map map("./data/test.txt");
 
-    // Refresh Tower Test
+    // Refresh Target Test
     for (int i = 0; i < 20; ++i) {
-        map.RefreshTower();
+        map.RefreshTarget();
         Point p = map.GetFocus();
         cout << "Focus (" << int(p.x) << ", " << int(p.y) << ")" << (int)map.GetPointColor(p) << endl;
     }

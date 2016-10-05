@@ -18,9 +18,6 @@
     <ClInclude Include=".\include\Random.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include=".\include\Tower.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="include\Common.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -34,6 +31,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\Game.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Target.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
