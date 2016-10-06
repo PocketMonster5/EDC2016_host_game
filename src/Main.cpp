@@ -4,6 +4,9 @@
 #include"Game.h"
 #include"Random.hpp"
 
+#include <opencv2/opencv.hpp>
+#include <fstream>
+
 using namespace std;
 
 int test_Map() {
@@ -86,33 +89,120 @@ int test_Game()
     Random random;
 
     int size = game.GetMapSize();
-
     Point p1(random.Rand() % size, random.Rand() % size);    
     Point p2(random.Rand() % size, random.Rand() % size);
     Point pp(random.Rand() % size, random.Rand() % size);
 
-    Point t;
+    const int force = 6;
+    const int move = 6, range = move * 2;
 
-    const int force = 5;
+    // load map
+    ifstream in("./data/test.txt");
+    in >> size;
+    cv::Mat map = cv::Mat::zeros(size, size, CV_8UC3);
+    for (int i=0; i<size; ++i)
+        for (int j = 0; j < size; ++j) {
+            int k; in >> k;
+            if (0 == k) map.at<cv::Vec3b>(i, j) = cv::Vec3b(0, 0, 0);
+            else map.at<cv::Vec3b>(i, j) = cv::Vec3b(255, 255, 255);
+        }
+
+    // display
+    cv::Mat display;
 
     for (int i = 0; i < 1800; ++i) {
 
-        t = game.GetTargetPoint();
-        
-        
-        p1.x += random.Rand() % 10 - 5; p1.y += random.Rand() % 10 - 5;
-        if (p1.x > t.x) p1.x -= force; else p1.x += force;
-        if (p1.y > t.y) p1.y -= force; else p1.y += force;
-        
-        p2.x += random.Rand() % 10 - 5; p2.y += random.Rand() % 10 - 5;
-        if (p2.x > t.x) p2.x -= force; else p2.x += force;
-        if (p2.y > t.y) p2.y -= force; else p2.y += force;
+        GameData gamedata = game.getGameData();
 
-        pp.x += random.Rand() % 10 - 5; pp.y += random.Rand() % 10 - 5;       
+        Point t = game.GetTargetPoint();
+        p1.x += random.Rand() % range - move; p1.y += random.Rand() % range - move;
+        
+        if (PropHP == game.GetProp() || 
+            ( PropAC == game.GetProp() /*&& gamedata.carData[Red].health > gamedata.carData[Blue].health*/)
+            ) { // get prop first!
+            t = game.GetPropPoint();
+            if (p1.x > t.x) p1.x -= force; else p1.x += force;
+            if (p1.y > t.y) p1.y -= force; else p1.y += force;
+        } else 
+        if (game.GetTargetHP() > 0) {
+            t = game.GetTargetPoint();
+            if (p1.x > t.x) p1.x -= force; else p1.x += force;
+            if (p1.y > t.y) p1.y -= force; else p1.y += force;
+        }
+
+        p2.x += random.Rand() % range - move; p2.y += random.Rand() % range - move;
+        if (PropHP == game.GetProp() ) { // get prop first!
+            t = game.GetPropPoint();
+            if (p2.x > t.x) p2.x -= force; else p2.x += force;
+            if (p2.y > t.y) p2.y -= force; else p2.y += force;
+        } else
+        if (game.GetTargetHP() > 0) { // get to the target!
+            t = game.GetTargetPoint();
+            if (p2.x > t.x) p2.x -= force; else p2.x += force;
+            if (p2.y > t.y) p2.y -= force; else p2.y += force;
+        }
+
+        
+        pp.x += random.Rand() % range - move; pp.y += random.Rand() % range - move;
+
+        if (gamedata.carData[Red].air_command) {
+            if (gamedata.planeStatus == PlaneAttack /*&& gamedata.carData[Red].health > gamedata.carData[Blue].health*/) {
+                t = gamedata.carData[Blue].pos;
+                if (pp.x > t.x) pp.x -= force; else pp.x += force;
+                if (pp.y > t.y) pp.y -= force; else pp.y += force;
+            }
+            if (gamedata.planeStatus == PlaneHeal) {
+                t = gamedata.carData[Red].pos;
+                if (pp.x > t.x) pp.x -= force; else pp.x += force;
+                if (pp.y > t.y) pp.y -= force; else pp.y += force;
+            }
+        }
+        
 
         game.Refresh(p1, p2, pp);
 
-		cout << game.getGameData().getString() << endl;
+
+
+        ////////////////////////////////////////// display
+        gamedata = game.getGameData();
+		cout << gamedata.getString() << endl;
+
+        int radius = 9;
+
+        char buffer[512];
+
+        display = map.clone();
+        t = gamedata.targetPoint;
+        if (gamedata.targetHealth > 0) 
+            cv::circle(display, cv::Point(t.y, t.x), radius, cv::Scalar(0, 255, 0), -1);
+        t = gamedata.carData[Red].pos;
+        cv::circle(display, cv::Point(t.y, t.x), radius, cv::Scalar(0, 0, 255), -1);
+        t = gamedata.carData[Blue].pos;
+        cv::circle(display, cv::Point(t.y, t.x), radius, cv::Scalar(255, 0, 0), -1);
+        t = gamedata.planePoint;
+        cv::circle(display, cv::Point(t.y, t.x), radius, cv::Scalar(255, 255, 0), -1);
+        t = gamedata.propPoint;
+        if (gamedata.propType != PropET) {
+            cv::circle(display, cv::Point(t.y, t.x), radius, cv::Scalar(255, 0, 255), -1);
+            sprintf(buffer, "%d", gamedata.propType);
+            cv::putText(display, buffer, cv::Point(t.y-3, t.x+3), 1, 1, cv::Scalar(255, 255, 255));
+        }
+        
+        /*sprintf(buffer, "%.1lf", gamedata.carData[Red].health);
+        cv::putText(display, buffer, cv::Point(0, 250), 1, 1, cv::Scalar(0, 0, 255));
+        sprintf(buffer, "%.1lf", gamedata.carData[Blue].health);
+        cv::putText(display, buffer, cv::Point(200, 250), 1, 1, cv::Scalar(255, 0, 0));
+        sprintf(buffer, "%.1lf", gamedata.carData[Red].health - gamedata.carData[Blue].health);
+        cv::putText(display, buffer, cv::Point(0, 230), 1, 0.7, cv::Scalar(0, 0, 255));
+        */
+
+        cv::rectangle(display, cv::Rect(20, 252, gamedata.carData[Red].health, 3), cv::Scalar(0, 0, 255), -1);
+        cv::rectangle(display, cv::Rect(20, 249, gamedata.carData[Blue].health, 3), cv::Scalar(255, 0, 0), -1);
+
+        cv::resize(display, display, cv::Size(512, 512));
+
+        cv::imshow("display", display);
+        cv::waitKey(100);
 
         if (game.GetGameStatus() != Running) break;
     }

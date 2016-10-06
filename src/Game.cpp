@@ -40,24 +40,24 @@ void Game::Refresh(const Point & pcar1, const Point & pcar2, const Point & pplan
 GameData Game::getGameData()
 {
 	GameData g;
-	g._round=_round_count;
-	g.planePos = _plane.GetPlanePos();
+	g.round=_round_count;
+	g.planePoint = _plane.GetPlanePos();
 	g.planeStatus = _plane.GetPlaneStatus();
 	g.targetHealth = _map.GetTargetHealth();
-    g.target_pos = _map.GetTargetPoint();
-	g._prop_pos = _prop.getPoint();
-	g._prop = _prop.getPropType();
+    g.targetPoint = _map.GetTargetPoint();
+	g.propPoint = _prop.getPoint();
+	g.propType = _prop.getPropType();
 	for (int i = 0; i < 2; i++)
 	{
-		g.carData[i]._health = _car[i].GetHealth();
-		g.carData[i]._pos = _car[i].GetPoint();
-		g.carData[i]._color = _map.GetPointColor(_car[i].GetPoint());
-		g.carData[i]._short_attack_map = _car[i].GetShortAttackMap();
-		g.carData[i]._long_attack_map = _car[i].GetLongAttackMap();
-		g.carData[i]._attack_plane = _car[i].GetAttackPlane();
-		g.carData[i]._heal_plane = _car[i].GetHealPlane();
-		g.carData[i]._air_command = _car[i].CommandAir();
-		g.carData[i]._count_air_command = _car[i].GetCountAirCommand();
+		g.carData[i].health = _car[i].GetHealth();
+		g.carData[i].pos = _car[i].GetPoint();
+		g.carData[i].color = _map.GetPointColor(_car[i].GetPoint());
+		g.carData[i].short_attack_map = _car[i].GetShortAttackMap();
+		g.carData[i].long_attack_map = _car[i].GetLongAttackMap();
+		g.carData[i].attack_plane = _car[i].GetAttackPlane();
+		g.carData[i].heal_plane = _car[i].GetHealPlane();
+		g.carData[i].air_command = _car[i].CommandAir();
+		g.carData[i].count_air_command = _car[i].GetCountAirCommand();
 	}
 	return g;
 }

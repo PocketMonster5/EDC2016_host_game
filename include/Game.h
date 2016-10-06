@@ -30,7 +30,8 @@ public:
     //Game 对外接口
 
     inline GameStatus GetGameStatus() const { return _game_status; }//返回比赛状态
-	inline Point GetLocationProp() const { return _prop.getPoint(); }//返回道具位置
+	inline Point GetPropPoint() const { return _prop.getPoint(); }//返回道具位置
+    inline PropType GetProp() const { return _prop.getPropType(); }
     inline Point GetTargetPoint() const { return _map.GetTargetPoint(); }//返回Tower位置
     inline unsigned char GetTargetColor() const { return _map.GetPointColor(_map.GetTargetPoint()); }//返回目前Tower的颜色
     inline double GetTargetHP() const { return _map.GetTargetHealth(); }

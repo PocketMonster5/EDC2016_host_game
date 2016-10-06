@@ -10,7 +10,7 @@
 #include<cmath>
 #include<ctime>
 
-const int MAX_ROUND = 3000; //至多进行3000回合（限制比赛时间）
+const int MAX_ROUND = 1800; //至多进行3000回合（限制比赛时间）
 
 // Car 参数
 const double HP_DEATH = 0;       // 最低血量
@@ -30,13 +30,14 @@ const double HP_TARGET = 40;      // 目标点HP
 const double MAP_SHORT_ATTACK = 0.8; // 地图暴击一回合伤害值
 const double MAP_LONG_ATTACK = 0.2;   // 地图普攻一回合伤害值
 const double CRITICAL_DISTANCE = 20; // 远/近攻击（暴击/普攻）的临界距离
-const int TARGET_CD = 50;           //多少回合不会出现塔
+const int TARGET_CD = 30;           //多少回合不会出现塔
 
 // Prop 参数
-const double PROP_DISTANCE = 10;
+const double PROP_DISTANCE = 20;
 const double PROP_AVOID = 40;
 const double PROP_MARGIN = 20;
-const int PROP_CD = 50;
+const int PROP_CD = 30;         // 产生间隔3s
+const int PROP_ABANDON = 150;     // 15s没有被吃掉自动更新
 const int PROP_SIZE = 4;
 
 //parameters of Game

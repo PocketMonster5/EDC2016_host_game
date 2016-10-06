@@ -22,7 +22,7 @@ public:
         _attack_plane = false;
         _heal_plane = false;
 
-        if (_count_air_command > AIR_COMMAND_TIME) {
+        if (_count_air_command >= AIR_COMMAND_TIME) {
             DismissAirCommand();
             _count_air_command = 0;
         }
