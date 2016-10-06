@@ -153,6 +153,7 @@
     <ClInclude Include="include\Plane.hpp" />
     <ClInclude Include=".\include\Random.hpp" />
     <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\Prop.hpp" />
     <ClInclude Include="include\Target.hpp" />
   </ItemGroup>
   <ItemGroup>

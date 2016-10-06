@@ -39,6 +39,9 @@
     <ClInclude Include="include\Target.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\Prop.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include=".\src\Main.cpp">

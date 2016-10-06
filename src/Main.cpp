@@ -5,26 +5,14 @@
 
 using namespace std;
 
-int TargetSuspend = 0;  //TODO ÒÆ¶¯µ½ºÏÊÊµÄÎ»ÖÃ
-bool IsTarget = false; //TODO
-
 int test_Map() {
     Map map("./data/test.txt");
 
     // Refresh Target Test
     for (int i = 0; i < 20; ++i) {
-        map.RefreshTarget();
-        Point p = map.GetFocus();
-        cout << "Focus (" << int(p.x) << ", " << int(p.y) << ")" << (int)map.GetPointColor(p) << endl;
-    }
-
-    // Refresh Prop Test
-    for (int i = 0; i < 20; ++i)
-    {
-        map.RefreshProp();
-        Point p = map.GetPropPos();
-        Prop pr = map.GetProp();
-        cout << "The prop is at: " << "(" << int(p.x) << ", " << int(p.y) << ") " << pr << endl;
+        map.GenerateTarget();
+        Point p = map.GetTargetPoint();
+        cout << "tid (" << int(p.x) << ", " << int(p.y) << ")" << (int)map.GetPointColor(p) << endl;
     }
 
     system("pause");
@@ -44,18 +32,18 @@ int test_Plane()
     //²âÊÔ¿ªÊ¼
     plane_test.Refresh(p_plane, 0); cout << "µ±Ç°Î»ÖÃ 30£¬140" << endl;
     cout << "PlaneStatus is:" << plane_test.GetPlaneStatus() << endl;//²âÊÔÉè¶¨·É»ú×´Ì¬
-    cout << "p1 is in the AttackRange ? " << plane_test.IsInAttackRange(p1) << endl;
-    cout << "p2 is in the AttackRange ? " << plane_test.IsInAttackRange(p2) << endl;//²âÊÔ¹¥»÷·¶Î§ÅĞ¶¨
-    cout << "p1 is in the HealRange   ? " << plane_test.IsInHealRange(p1) << endl;
-    cout << "p2 is in the HealRange   ? " << plane_test.IsInHealRange(p2) << endl;//²âÊÔÖÎÁÆ·¶Î§ÅĞ¶¨
+    cout << "p1 is in the AttackRange  " << plane_test.IsInAttackRange(p1) << endl;
+    cout << "p2 is in the AttackRange  " << plane_test.IsInAttackRange(p2) << endl;//²âÊÔ¹¥»÷·¶Î§ÅĞ¶¨
+    cout << "p1 is in the HealRange    " << plane_test.IsInHealRange(p1) << endl;
+    cout << "p2 is in the HealRange    " << plane_test.IsInHealRange(p2) << endl;//²âÊÔÖÎÁÆ·¶Î§ÅĞ¶¨
     cout << endl << endl;
 
     plane_test.Refresh(p_plane2, 255); cout << "µ±Ç°Î»ÖÃ 70£¬200" << endl;
     cout << "PlaneStatus is:" << plane_test.GetPlaneStatus() << endl;//²âÊÔÉè¶¨·É»ú×´Ì¬
-    cout << "p1 is in the AttackRange ? " << plane_test.IsInAttackRange(p1) << endl;
-    cout << "p2 is in the AttackRange ? " << plane_test.IsInAttackRange(p2) << endl;//²âÊÔ¹¥»÷·¶Î§ÅĞ¶¨
-    cout << "p1 is in the HealRang    ? " << plane_test.IsInHealRange(p1) << endl;
-    cout << "p2 is in the HealRang    ? " << plane_test.IsInHealRange(p2) << endl;//²âÊÔÖÎÁÆ·¶Î§ÅĞ¶¨
+    cout << "p1 is in the AttackRange  " << plane_test.IsInAttackRange(p1) << endl;
+    cout << "p2 is in the AttackRange  " << plane_test.IsInAttackRange(p2) << endl;//²âÊÔ¹¥»÷·¶Î§ÅĞ¶¨
+    cout << "p1 is in the HealRang     " << plane_test.IsInHealRange(p1) << endl;
+    cout << "p2 is in the HealRang     " << plane_test.IsInHealRange(p2) << endl;//²âÊÔÖÎÁÆ·¶Î§ÅĞ¶¨
     system("pause");
     return 0;
 }
@@ -98,6 +86,8 @@ int test_Game()
     for (int i = 0; i < 15; ++i) {
         cout << "Round " << game.GetRoundCount() << endl;
         game.Refresh(Point(0, 0), Point(0, 0), Point(0, 0));
+
+		cout << game.getGameData().getString() << endl;
     }
 
     system("pause");

@@ -1,7 +1,10 @@
 #include "Game.h"
 #include <iostream>
+#include <vector>
 
-Game::Game(std::string filename)
+using namespace std;
+
+Game::Game(string filename)
     : _map(filename)
     , _game_status(Running)
     , _round_count(0)
@@ -14,46 +17,71 @@ void Game::Refresh(const Point & p1, const Point & p2, const Point & pp)
     //刷新所有位置
     _car[0].Refresh(p1, _map.GetPointColor(p1));
     _car[1].Refresh(p2, _map.GetPointColor(p2));
-    _plane.Refresh(pp, _map.GetPointColor(_map.GetFocus()));
+    _plane.Refresh(pp, _map.GetPointColor(_map.GetTargetPoint()));
+
+
+	//更新 .. . ..
+	if (_prop.Refresh()) GenerateProp();
+	if (_map.RefreshTarget()) _map.GenerateTarget();
 
     //道具
-    CheckProp(_car[Red]);
-    CheckProp(_car[Blue]);
-    //TODO 道具的产生和更新
-
+    CheckProp(_car[Red]); CheckProp(_car[Blue]);
 
     //血量计算
     SettleDamage();
 
-    //检查地图
-    RefreshTarget();
 
     //判断游戏是否结束
     Judge();	
-	
-	//修改gameData的位置信息
+
 }
 
-void Game::CheckProp(Car& car_prop)
+GameData Game::getGameData()
 {
-    if (car_prop.GetPoint() == _map.GetPropPos())
+	GameData g;
+	g._round=_round_count;
+	g.planePos = _plane.GetPlanePos();
+	g.planeStatus = _plane.GetPlaneStatus();
+	g.targetHealth = _map.GetTargetHealth();
+	g._prop_pos = _prop.getPoint();
+	g._prop = _prop.getPropType();
+	for (int i = 0; i < 2; i++)
+	{
+		g.carData[i]._health = _car[i].GetHealth();
+		g.carData[i]._pos = _car[i].GetPoint();
+		g.carData[i]._color = _map.GetPointColor(_car[i].GetPoint());
+		g.carData[i]._short_attack_map = _car[i].GetShortAttackMap();
+		g.carData[i]._long_attack_map = _car[i].GetLongAttackMap();
+		g.carData[i]._attack_plane = _car[i].GetAttackPlane();
+		g.carData[i]._heal_plane = _car[i].GetHealPlane();
+		g.carData[i]._air_command = _car[i].CommandAir();
+		g.carData[i]._count_air_command = _car[i].GetCountAirCommand();
+	}
+	return g;
+}
+
+void Game::CheckProp(Car& c) 
+{
+
+    if (_prop.CheckPoint(c.GetPoint()))
     {
-        switch (_map.GetProp())
-        {
-        case PropET: //道具0： Empty
-            break;
-        case PropHP: //道具1：（+HP)
-            car_prop.HealByProp();
-            break;
-        case PropBW: //道具2：（BlackWhite）
-            _map.RefreshTarget(true);
-            _plane.SetPlaneStatus(_map.GetPointColor(_map.GetFocus()));
-            break;
-        case PropAC: //道具3： （AC）
-            car_prop.AcquireAirCommand();
-            break;
-        }
-        _map.RefreshProp();
+		switch (_prop.getPropType())
+		{
+		case PropET: //道具0： Empty
+			break;
+		case PropHP: //道具1：（+HP)
+			c.HealByProp();
+			break;
+		case PropBW: //道具2：（BlackWhite）
+			_map.GenerateTarget(true);
+			_plane.SetPlaneStatus(_map.GetPointColor(_map.GetTargetPoint()));
+			break;
+		case PropAC: //道具3： （AC）
+			c.AcquireAirCommand();
+			break;
+		}
+		
+		GenerateProp();
     }
 }
 void Game::ShortAttack(CarName car_name) {
@@ -74,14 +102,14 @@ void Game::SettleDamage() {
     Point r_pos = _car[Red].GetPoint();
     Point b_pos = _car[Blue].GetPoint();
 
-    if (IsTarget) {
+    if (_map.HaveTarget()) {
 
-        Point focus_pos = _map.GetFocus();
-        unsigned char tower_color = _map.GetPointColor(focus_pos)
+        Point tid_pos = _map.GetTargetPoint();
+        unsigned char tower_color = _map.GetPointColor(tid_pos)
             , r_color = _map.GetPointColor(r_pos)
             , b_color = _map.GetPointColor(b_pos);
-        double r_distance = r_pos.getDistance(focus_pos)
-            , b_distance = b_pos.getDistance(focus_pos);
+        double r_distance = r_pos.getDistance(tid_pos)
+            , b_distance = b_pos.getDistance(tid_pos);
         bool critical = (r_color == tower_color && r_distance <= CRITICAL_DISTANCE)
             || (b_color == tower_color && b_distance <= CRITICAL_DISTANCE);
 
@@ -117,44 +145,47 @@ void Game::SettleDamage() {
         if (_plane.IsInHealRange(b_pos)) _car[Blue].HealedByPlane();
         break;
     default:
-        std::cout << "[Error] Unknown Plane Status!" << _plane.GetPlaneStatus() << std::endl;
+        cout << "[Error] Unknown Plane Status!" << _plane.GetPlaneStatus() << endl;
         system("pause");
     }
 
 
 }
-void Game::RefreshTarget() {
-    if (!IsTarget) {
-        TargetSuspend++;
-        if (TargetSuspend == TARGET_SUSPEND) _map.RefreshTarget();
-    }
-    else {
-        if (_map.GetTargetHealth() < 0) {
-            IsTarget = false;
-            TargetSuspend = 0;
-        }
-    }
+
+void Game::GenerateProp()
+{
+	vector<Point> point_list;
+	point_list.push_back(_car[Red].GetPoint());
+	point_list.push_back(_car[Blue].GetPoint());
+	point_list.push_back(_map.GetTargetPoint());
+	_prop.Generate(point_list, _map.GetMapSize()); 
 }
 
 void Game::Judge()
 {
-    if (_round_count < MAX_ROUND)//当比赛还有剩余时间
+    if (_round_count < MAX_ROUND) //当比赛还有剩余时间
     {
-        if (_car[Red].IsAlive() && _car[Blue].IsAlive()) //比赛继续
+		cout << getGameData().getString();//显示本回合信息。
+		if (_car[Red].IsAlive() && _car[Blue].IsAlive()) //比赛继续
         {
             _round_count++;
             _game_status = Running;
         }
-        else if (!_car[Red].IsAlive() && !_car[Blue].IsAlive()) //同时死亡，平局
-            _game_status = Tie;
+		else if (!_car[Red].IsAlive() && !_car[Blue].IsAlive()) //同时死亡，平局
+		{
+			_game_status = Tie; 
+			std::cout << "[Game] No survior!" << endl;
+		}
         else if ( _car[Red].IsAlive() && !_car[Blue].IsAlive())
-            _game_status = RedWin;
+			_game_status = RedWin;
         else if (!_car[Red].IsAlive() &&  _car[Blue].IsAlive())
             _game_status = BlueWin;
 
     }
     else //比赛时间到
     {
+		cout << "[Game] Time out!" << endl;
+
         if (_car[Red].GetHealth() == _car[Blue].GetHealth())
             _game_status = Tie;
         else if (_car[Red].GetHealth() > _car[Blue].GetHealth())
@@ -166,13 +197,13 @@ void Game::Judge()
     switch (_game_status)
     {
     case Tie:
-        std::cout << "[Game] Game Over: Tie!" << std::endl;
+        cout << "[Game] Game Over: Tie!" << endl;
         break;
     case RedWin:
-        std::cout << "[Game] Game Over: Red Win!" << std::endl;
+        cout << "[Game] Game Over: Red Win!" << endl;
         break;
     case BlueWin:
-        std::cout << "[Game] Game Over: Blue Win!" << std::endl;
+        cout << "[Game] Game Over: Blue Win!" << endl;
         break;
     default:
         break;

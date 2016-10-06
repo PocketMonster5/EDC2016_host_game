@@ -27,8 +27,13 @@ public:
         return(_pos.getDistance(p) <= HEAL_RADUIS);
 
     }
-
-    //·µ»Ø·É»ú×´Ì¬
+	//·µ»Ø·É»úÎ»ÖÃ
+	Point GetPlanePos()
+	{
+		return _pos;
+	}
+	
+	//·µ»Ø·É»ú×´Ì¬
     PlaneStatus GetPlaneStatus() {
         return _status;
     }

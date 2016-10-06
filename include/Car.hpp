@@ -105,7 +105,7 @@ public:
     inline bool GetAttackMap() const {  return _long_attack_map || _short_attack_map; } //返回是否被地图攻击
     inline bool GetAttackPlane() const { return _attack_plane; }//返回是否被飞机攻击(补充）
     inline bool GetHealPlane() const { return _heal_plane; }//返回是否被飞机加血(补充）
-
+	inline int GetCountAirCommand() const { return _count_air_command; }//返回制空权回合数
 private:
     double _health;//血量
     Point _pos;//位置
