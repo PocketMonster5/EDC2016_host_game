@@ -20,7 +20,7 @@ const double HEALTH_PROP = 40;     // 道具瞬间回复血量
 
 // Plane 参数
 const double ATTACK_RADIUS = 50;    // 攻击半径
-const double HEAL_RADUIS = 100;     // 治疗半径
+const double HEAL_RADUIS = 75;     // 治疗半径
 const int AIR_COMMAND_TIME = 100; // 制空权维持回合数
 const double PLANE_ATTACK = 0.8;     // 飞机一回合攻击值
 const double PLANE_HEAL = 0.4;       // 飞机一回合回复值
