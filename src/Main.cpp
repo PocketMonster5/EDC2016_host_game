@@ -96,14 +96,14 @@ int test_Game()
 
 int main() {
 
-    cout << "======= <test> Map =========" << endl;
+    /*cout << "======= <test> Map =========" << endl;
     test_Map();
 
     cout << "======= <test> Plane =========" << endl;
     test_Plane();
 
     cout << "======= <test> Car =========" << endl;
-    test_Car();
+    test_Car();*/
 
     cout << "======= <test> Game =========" << endl;
     test_Game();

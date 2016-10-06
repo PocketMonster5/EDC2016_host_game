@@ -3,6 +3,7 @@
  */
 
 #pragma once
+#include<fstream>
 
 #include"Common.h"
 #include"Car.hpp"
@@ -45,7 +46,8 @@ public:
 
 	
 private:
-    Car _car[2];    //两辆小车
+	std::ofstream out_file;
+	Car _car[2];    //两辆小车
     Plane _plane;   //飞机
     Map _map;       //地图
     GameStatus _game_status;    //游戏状态

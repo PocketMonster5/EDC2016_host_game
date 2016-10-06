@@ -7,6 +7,8 @@
 class Target {
 public:
 
+	Target() :_health(0) {}
+
     void Reset() { //ÉúÃüÖµÖÃÂú
 		_health = TARGET_HEALTH; 
 		_waiting_count = 0;

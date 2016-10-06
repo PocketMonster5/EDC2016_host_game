@@ -30,13 +30,13 @@ public:
 
 	void Generate(std::vector<Point> avoid_point_list, int _map_size, double distance = 50) {
 		// 产生一个道具，而且不能非常靠近传进来的几个点(小车,目标点什么的)
-		do
+		for(int i=0;i<10;i++)
 		{
 			_point.x = _random.Rand() % _map_size;
 			_point.y = _random.Rand() % _map_size;
+			if (_point.getDistance(avoid_point_list[0]) >= distance && _point.getDistance(avoid_point_list[1]) >= distance && _point.getDistance(avoid_point_list[2]) >= distance)
+				break;
 		}
-		
-		while (_point.getDistance(avoid_point_list[0]) <= distance || _point.getDistance(avoid_point_list[1]) <= distance || _point.getDistance(avoid_point_list[2]) <= distance);
 
 		// 隔一段时间会出现道具
 		_prop = (PropType)(_random.Rand() % (PROP_SIZE - 1) + 1); // 避免0号NULL道具

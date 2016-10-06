@@ -9,7 +9,8 @@ Game::Game(string filename)
     , _game_status(Running)
     , _round_count(0)
 {
-
+	//打开文件
+	out_file.open("log.txt", ios_base::out|ios_base::app);
 }
 
 void Game::Refresh(const Point & p1, const Point & p2, const Point & pp)
@@ -30,7 +31,7 @@ void Game::Refresh(const Point & p1, const Point & p2, const Point & pp)
     //血量计算
     SettleDamage();
 
-
+	out_file << getGameData().getString();//回合信息写入文件
     //判断游戏是否结束
     Judge();	
 
@@ -165,7 +166,9 @@ void Game::Judge()
 {
     if (_round_count < MAX_ROUND) //当比赛还有剩余时间
     {
-		cout << getGameData().getString();//显示本回合信息。
+		
+		
+
 		if (_car[Red].IsAlive() && _car[Blue].IsAlive()) //比赛继续
         {
             _round_count++;
