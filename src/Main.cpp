@@ -2,6 +2,7 @@
 
 
 #include"Game.h"
+#include"Random.hpp"
 
 using namespace std;
 
@@ -81,13 +82,36 @@ int test_Car()
 
 int test_Game()
 {
-    Game game;
-    
-    for (int i = 0; i < 15; ++i) {
-        cout << "Round " << game.GetRoundCount() << endl;
-        game.Refresh(Point(0, 0), Point(0, 0), Point(0, 0));
+    Game game("./data/test.txt");
+    Random random;
+
+    int size = game.GetMapSize();
+
+    Point p1(random.Rand() % size, random.Rand() % size);    
+    Point p2(random.Rand() % size, random.Rand() % size);
+    Point pp(random.Rand() % size, random.Rand() % size);
+
+    Point t;
+
+    for (int i = 0; i < 1800; ++i) {
+
+        t = game.GetTargetPoint();
+
+        p1.x += random.Rand() % 10 - 5; p1.y += random.Rand() % 10 - 5;
+        if (p1.x > t.x) p1.x -= 5; else p1.x += 5;
+        if (p1.y > t.y) p1.y -= 5; else p1.y += 5;
+
+        p2.x += random.Rand() % 10 - 5; p2.y += random.Rand() % 10 - 5;
+        if (p2.x > t.x) p1.x -= 5; else p2.x += 5;
+        if (p2.y > t.y) p1.y -= 5; else p2.y += 5;
+
+        pp.x += random.Rand() % 10 - 5; pp.y += random.Rand() % 10 - 5;
+
+        game.Refresh(p1, p2, pp);
 
 		cout << game.getGameData().getString() << endl;
+
+        if (game.GetGameStatus() != Running) break;
     }
 
     system("pause");

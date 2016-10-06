@@ -32,13 +32,18 @@ public:
     //初始化小车：生命、制空回合（补充）
     void ResetCar()
     {
-        _health = INITIAL_BlOOD;
+        _health = HP_INITIAL;
         _count_air_command = 0;
         _air_command = false;
         _long_attack_map = false;
         _short_attack_map = false;
         _attack_plane = false;
         _heal_plane = false;
+    }
+
+    //自检
+    void CheckHP() {
+        if (_health > HP_INITIAL) _health = HP_INITIAL;
     }
 
     ////////////////////////////////攻击
@@ -96,7 +101,7 @@ public:
         _count_air_command = 0;
     }
 
-    inline bool IsAlive() { return (_health >= DEATH_BlOOD); } //是否存活
+    inline bool IsAlive() { return (_health >= HP_DEATH); } //是否存活
     inline bool CommandAir() const { return _air_command; }//是否有制空权
     inline Point GetPoint() const { return this->_pos; }//返回小车位置
     inline double GetHealth() const { return _health; }//返回血量(补充）

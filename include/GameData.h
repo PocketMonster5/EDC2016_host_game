@@ -19,12 +19,16 @@ struct CarData
     bool _air_command;//是否有制空权
     int _count_air_command;//记录制空权回合数
 
-	std::string getString() {
-		char Out[50];
-		sprintf(Out, "%f (%d,%d) %c %d %d %d %d %d %d", _health,_pos.x,_pos.y,_color,_long_attack_map,_short_attack_map,_attack_plane,_heal_plane,_air_command,_count_air_command);
-		return Out;
-		// return all data
-	};
+    std::string getString() {
+        char buffer[512];
+        sprintf(buffer, " [ HP %.1lf pos (%d,%d) color %d A L%d S%d PA%d PH%d AC%d(%d) ] ",
+            _health, _pos.x, _pos.y, _color, 
+            _long_attack_map, _short_attack_map, 
+            _attack_plane, _heal_plane, 
+            _air_command, _count_air_command);
+        return buffer;
+        // return all data
+    }
 
 };
 
@@ -41,20 +45,25 @@ struct GameData
     PlaneStatus planeStatus;
 
 
-    //塔信息
+    //目标点信息
     double targetHealth;//生命值
+    Point target_pos; //目标点位置
 
     //地图动态信息
     Point _prop_pos;//道具所在位置
     PropType _prop; // 道具类型
 
-	std::string getString() {
+    std::string getString() {
 
-		char Out[50];
-		sprintf(Out, "%d (%d,%d) %d %f (%d,%d) %d ", _round, planePos.x, planePos.y, planeStatus, targetHealth, _prop_pos.x, _prop_pos.y, _prop);
-		return (Out + carData[Red].getString() + carData[Blue].getString()+'\n');
-		// ( call carData.getString()) and return all data 
-	}
+        char buffer[512];
+        sprintf(buffer, " round %d : target (%d,%d) %.1lf ; plane (%d,%d) %d ; prop (%d,%d) %d ; ",
+            _round,
+            target_pos.x, target_pos.y, targetHealth,
+            planePos.x, planePos.y, planeStatus,
+            _prop_pos.x, _prop_pos.y, _prop);
+        return (buffer + carData[Red].getString() + carData[Blue].getString());
+        // ( call carData.getString()) and return all data 
+    }
 
 	MyString getComunicationString() {
 		char s[20] = "TEST COMMUNICATION";

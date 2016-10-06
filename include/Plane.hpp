@@ -45,10 +45,8 @@ public:
         case 0:
             _status = PlaneAttack;
             break;
-        case 255:
-            _status = PlaneHeal;
-            break;
         default:
+            _status = PlaneHeal;
             break;
         } 
     }

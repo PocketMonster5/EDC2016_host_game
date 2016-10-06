@@ -7,10 +7,14 @@
 class Target {
 public:
 
-	Target() :_health(0) {}
+    Target()
+        : _health(0)
+        , _waiting_count(0)
+        , _alive(false)
+    { }
 
     void Reset() { //生命值置满
-		_health = TARGET_HEALTH; 
+		_health = HP_TARGET; 
 		_waiting_count = 0;
 		_alive = true;
 	}
@@ -26,8 +30,8 @@ public:
 		return false;
 	} //refresh
 
-    void ShortAttack() { _health -= SHORT_ATTACK; }//近战减血
-    void LongAttack() { _health -= LONG_ATTACK; }//远战减血
+    void ShortAttack() { _health -= MAP_SHORT_ATTACK; _alive = _health > 0; }//近战减血
+    void LongAttack() { _health -= MAP_LONG_ATTACK; _alive = _health > 0; }//远战减血
     void Attack(bool critical) { if (critical) ShortAttack(); else LongAttack(); } //远/近减血
 
 	inline double GetHealth() const { return _health; }//返回血量
@@ -37,7 +41,6 @@ private:
 
 	
     double _health;//生命值
-
 	bool _alive;
 
 	int _waiting_count;

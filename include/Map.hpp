@@ -6,7 +6,7 @@
 
 #include"Common.h"
 #include"Target.hpp"
-
+#include"Random.hpp"
 
 #include<iostream>
 #include<fstream>
@@ -30,11 +30,12 @@ public:
             for (int j = 0; j < _map_size; ++j)
                 _map[i][j] = getNum(in);
 
-        _targets_size = getNum(in);
+        in >> _targets_size;
 
         _targets.resize(_targets_size);
         for (int i = 0; i < _targets_size; ++i) {
-            _targets[i].x = getNum(in); _targets[i].y = getNum(in);
+            _targets[i].x = getNum(in); 
+            _targets[i].y = getNum(in);
         }
 
         in.close();
@@ -70,10 +71,10 @@ public:
     }
 
 	//更新target计时器 
-	  bool RefreshTarget()
-	  {
-		return _target.Refresh();
-	  }
+	bool RefreshTarget()
+	{
+	    return _target.Refresh();
+	}
 
 	//Target是否存在
 	bool HaveTarget() {
@@ -104,7 +105,7 @@ private:
     unsigned char getNum(std::ifstream& in) {
         int v;
         in >> v;
-        return (unsigned char)v;
+        return v;
     }
 
 

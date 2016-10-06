@@ -10,31 +10,31 @@ Game::Game(string filename)
     , _round_count(0)
 {
 	//打开文件
-	out_file.open("log.txt", ios_base::out|ios_base::app);
+	out_file.open("log.txt");
 }
 
-void Game::Refresh(const Point & p1, const Point & p2, const Point & pp)
+void Game::Refresh(const Point & pcar1, const Point & pcar2, const Point & pplane)
 {
     //刷新所有位置
-    _car[0].Refresh(p1, _map.GetPointColor(p1));
-    _car[1].Refresh(p2, _map.GetPointColor(p2));
-    _plane.Refresh(pp, _map.GetPointColor(_map.GetTargetPoint()));
-
-
-	//更新 .. . ..
-	if (_prop.Refresh()) GenerateProp();
-	if (_map.RefreshTarget()) _map.GenerateTarget();
+    _car[0].Refresh(pcar1, _map.GetPointColor(pcar1));
+    _car[1].Refresh(pcar2, _map.GetPointColor(pcar2));
+    _plane.Refresh(pplane, _map.GetPointColor(_map.GetTargetPoint()));
 
     //道具
-    CheckProp(_car[Red]); CheckProp(_car[Blue]);
+    CheckProp(Red); CheckProp(Blue);
 
     //血量计算
     SettleDamage();
 
-	out_file << getGameData().getString();//回合信息写入文件
+    //更新 .. . ..
+    if (_prop.Refresh()) GenerateProp();
+    if (_map.RefreshTarget()) _map.GenerateTarget();
+    
     //判断游戏是否结束
     Judge();	
 
+    //回合信息写入文件
+    out_file << getGameData().getString() << endl;
 }
 
 GameData Game::getGameData()
@@ -44,6 +44,7 @@ GameData Game::getGameData()
 	g.planePos = _plane.GetPlanePos();
 	g.planeStatus = _plane.GetPlaneStatus();
 	g.targetHealth = _map.GetTargetHealth();
+    g.target_pos = _map.GetTargetPoint();
 	g._prop_pos = _prop.getPoint();
 	g._prop = _prop.getPropType();
 	for (int i = 0; i < 2; i++)
@@ -61,42 +62,38 @@ GameData Game::getGameData()
 	return g;
 }
 
-void Game::CheckProp(Car& c) 
+void Game::CheckProp(CarName name) 
 {
+    Car & c = _car[name];
+    Car & nc = _car[1 - name]; // 另一个小车
 
     if (_prop.CheckPoint(c.GetPoint()))
     {
 		switch (_prop.getPropType())
 		{
 		case PropET: //道具0： Empty
-			break;
-		case PropHP: //道具1：（+HP)
+			return;
+		case PropHP: //道具1： HP
 			c.HealByProp();
 			break;
-		case PropBW: //道具2：（BlackWhite）
+		case PropBW: //道具2： BlackWhite
 			_map.GenerateTarget(true);
 			_plane.SetPlaneStatus(_map.GetPointColor(_map.GetTargetPoint()));
 			break;
-		case PropAC: //道具3： （AC）
+		case PropAC: //道具3： AC
 			c.AcquireAirCommand();
+            nc.DismissAirCommand();
 			break;
 		}
 		
-		GenerateProp();
+        _prop.Consume();
     }
-}
-void Game::ShortAttack(CarName car_name) {
-    _car[car_name].ShortAttackedByMap();
-    _map.ShortAttack();
-}
-void Game::LongAttack(CarName car_name) {
-    _car[car_name].LongAttackedByMap();
-    _map.LongAttack();
 }
 
 void Game::Attack(CarName car_name, bool critical)
 {
     _car[car_name].AttackedByMap(critical);
+    _map.Attack(critical);
 }
 
 void Game::SettleDamage() {
@@ -150,7 +147,6 @@ void Game::SettleDamage() {
         system("pause");
     }
 
-
 }
 
 void Game::GenerateProp()
@@ -164,6 +160,9 @@ void Game::GenerateProp()
 
 void Game::Judge()
 {
+    _car[Red].CheckHP();
+    _car[Blue].CheckHP();
+
     if (_round_count < MAX_ROUND) //当比赛还有剩余时间
     {
 		

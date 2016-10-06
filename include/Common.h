@@ -10,43 +10,40 @@
 #include<cmath>
 #include<ctime>
 
-#include"Random.hpp"
-
- // const int MAP_SIZE = 256;//地图尺寸，已改为从文件读取
-const int MAX_ROUND = 3000;//至多进行3000回合（限制比赛时间）
-
+const int MAX_ROUND = 3000; //至多进行3000回合（限制比赛时间）
 
 // Car 参数
-const double DEATH_BlOOD = 0;       // 最低血量
-const double INITIAL_BlOOD = 200;   // 初始血量
-const double PLANE_ATTACK = 50;     // 飞机一回合攻击值
-const double PLANE_HEAL = 20;       // 飞机一回合回复值
-const double MAP_SHORT_ATTACK = 10; // 地图暴击一回合伤害值
-const double MAP_LONG_ATTACK = 2;   // 地图普攻一回合伤害值
-const double AIR_COMMAND_TIME = 20; // 制空权维持回合数
-const double HEALTH_PROP = 100;     // 道具瞬间回复血量
+const double HP_DEATH = 0;       // 最低血量
+const double HP_INITIAL = 200;   // 初始血量
+
+const double HEALTH_PROP = 40;     // 道具瞬间回复血量
 
 // Plane 参数
 const double ATTACK_RADIUS = 50;    // 攻击半径
 const double HEAL_RADUIS = 100;     // 治疗半径
-enum PlaneStatus { PlaneNone, PlaneAttack, PlaneHeal };
+const int AIR_COMMAND_TIME = 100; // 制空权维持回合数
+const double PLANE_ATTACK = 0.8;     // 飞机一回合攻击值
+const double PLANE_HEAL = 0.4;       // 飞机一回合回复值
 
 // Target 参数
-const double TARGET_HEALTH = 100;    // 目标点点数
-const double SHORT_ATTACK = 10;     // 目标点暴击消耗点数
-const double LONG_ATTACK = 2;       // 目标点普攻消耗点数
-const double CRITICAL_DISTANCE = 50;// 远/近攻击（暴击/普攻）的临界距离
-const int TARGET_CD = 40; //多少回合不会出现塔
+const double HP_TARGET = 40;      // 目标点HP
+const double MAP_SHORT_ATTACK = 0.8; // 地图暴击一回合伤害值
+const double MAP_LONG_ATTACK = 0.2;   // 地图普攻一回合伤害值
+const double CRITICAL_DISTANCE = 20; // 远/近攻击（暴击/普攻）的临界距离
+const int TARGET_CD = 50;           //多少回合不会出现塔
 
 // Prop 参数
 const double PROP_DISTANCE = 10;
+const double PROP_AVOID = 40;
+const double PROP_MARGIN = 20;
 const int PROP_CD = 50;
+const int PROP_SIZE = 4;
 
 //parameters of Game
-const int PROP_SIZE = 4;
-enum PropType { PropET, PropHP, PropBW, PropAC }; //(EmpTy)空，（Black-White）黑白颠倒，(+HP)加生命，(Air Command)制空权
-enum GameStatus { Running, RedWin, BlueWin, Tie };
+enum PropType { PropET = 0, PropHP = 1, PropBW = 2, PropAC = 3 }; //(EmpTy)空，（Black-White）黑白颠倒，(+HP)加生命，(Air Command)制空权
+enum GameStatus { Running = 0, RedWin = 1, BlueWin = 2, Tie = 3 };
 enum CarName { Red = 0, Blue = 1 };
+enum PlaneStatus { PlaneNone = 0, PlaneAttack = 1, PlaneHeal = 2 };
 
 //点的颜色：0代表黑，255代表白
 struct Point {
