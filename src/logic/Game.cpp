@@ -16,12 +16,14 @@ Game::Game(string filename)
 void Game::Refresh(const Point & pcar1, const Point & pcar2, const Point & pplane)
 {
     //刷新所有位置
-    _car[0].Refresh(pcar1, _map.GetPointColor(pcar1));
-    _car[1].Refresh(pcar2, _map.GetPointColor(pcar2));
+    _car[Red].Refresh(pcar1, _map.GetPointColor(pcar1));
+    _car[Blue].Refresh(pcar2, _map.GetPointColor(pcar2));
     _plane.Refresh(pplane, _map.GetPointColor(_map.GetTargetPoint()));
 
     //道具
-    CheckProp(Red); CheckProp(Blue);
+    if (_car[Red].GetPoint().getDistance(_prop.getPoint()) < _car[Blue].GetPoint().getDistance(_prop.getPoint()))
+        CheckProp(Red);
+    else CheckProp(Blue);
 
     //血量计算
     SettleDamage();

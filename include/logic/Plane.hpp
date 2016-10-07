@@ -18,13 +18,13 @@ public:
 
     //判断p是否在攻击范围内
     bool IsInAttackRange(Point p) {
-        return(_pos.getDistance(p) <= ATTACK_RADIUS);
+        return(_pos.getDistance(p) <= RADIUS_PLANE_ATTACK);
 
     }
     
     //判断p是否在治疗范围内
     bool IsInHealRange(Point p) {
-        return(_pos.getDistance(p) <= HEAL_RADUIS);
+        return(_pos.getDistance(p) <= RADUIS_PLANE_HEAL);
 
     }
 	//返回飞机位置

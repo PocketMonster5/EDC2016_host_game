@@ -89,7 +89,7 @@ int test_Game()
     Random random;
 
     int size = game.GetMapSize();
-    Point p1(random.Rand() % size, random.Rand() % size);    
+    Point p1(random.Rand() % size, random.Rand() % size);
     Point p2(random.Rand() % size, random.Rand() % size);
     Point pp(random.Rand() % size, random.Rand() % size);
 
@@ -100,7 +100,7 @@ int test_Game()
     ifstream in("./data/test.txt");
     in >> size;
     cv::Mat map = cv::Mat::zeros(size, size, CV_8UC3);
-    for (int i=0; i<size; ++i)
+    for (int i = 0; i < size; ++i)
         for (int j = 0; j < size; ++j) {
             int k; in >> k;
             if (0 == k) map.at<cv::Vec3b>(i, j) = cv::Vec3b(0, 0, 0);
@@ -116,22 +116,24 @@ int test_Game()
 
         Point t = game.GetTargetPoint();
         p1.x += random.Rand() % range - move; p1.y += random.Rand() % range - move;
-        
-        if (PropHP == game.GetProp() || 
-            ( PropAC == game.GetProp() /*&& gamedata.carData[Red].health > gamedata.carData[Blue].health*/)
+
+        if (PropHP == game.GetProp() ||
+            (PropAC == game.GetProp() && gamedata.carData[Red].health > gamedata.carData[Blue].health)
             ) { // get prop first!
             t = game.GetPropPoint();
             if (p1.x > t.x) p1.x -= force; else p1.x += force;
             if (p1.y > t.y) p1.y -= force; else p1.y += force;
-        } else 
-        if (game.GetTargetHP() > 0) {
-            t = game.GetTargetPoint();
-            if (p1.x > t.x) p1.x -= force; else p1.x += force;
-            if (p1.y > t.y) p1.y -= force; else p1.y += force;
         }
+        else
+            if (game.GetTargetHP() > 0) {
+                t = game.GetTargetPoint();
+                if (p1.x > t.x) p1.x -= force; else p1.x += force;
+                if (p1.y > t.y) p1.y -= force; else p1.y += force;
+            }
 
         p2.x += random.Rand() % range - move; p2.y += random.Rand() % range - move;
-        if (PropHP == game.GetProp() ) { // get prop first!
+        if (PropHP == game.GetProp() ||
+            (PropAC == game.GetProp() && gamedata.carData[Red].health < gamedata.carData[Blue].health)) { // get prop first!
             t = game.GetPropPoint();
             if (p2.x > t.x) p2.x -= force; else p2.x += force;
             if (p2.y > t.y) p2.y -= force; else p2.y += force;
@@ -145,14 +147,15 @@ int test_Game()
         
         pp.x += random.Rand() % range - move; pp.y += random.Rand() % range - move;
 
-        if (gamedata.carData[Red].air_command) {
-            if (gamedata.planeStatus == PlaneAttack /*&& gamedata.carData[Red].health > gamedata.carData[Blue].health*/) {
-                t = gamedata.carData[Blue].pos;
+        if (gamedata.carData[Red].air_command || gamedata.carData[Blue].air_command) {
+            if (gamedata.planeStatus == PlaneAttack && 
+                (gamedata.carData[Red].health > gamedata.carData[Blue].health || gamedata.carData[Red].pos.getDistance(gamedata.carData[Blue].pos)>RADIUS_PLANE_ATTACK )) {
+                if (gamedata.carData[Red].air_command) t = gamedata.carData[Blue].pos; else t = gamedata.carData[Red].pos;
                 if (pp.x > t.x) pp.x -= force; else pp.x += force;
                 if (pp.y > t.y) pp.y -= force; else pp.y += force;
             }
             if (gamedata.planeStatus == PlaneHeal) {
-                t = gamedata.carData[Red].pos;
+                if (gamedata.carData[Red].air_command) t = gamedata.carData[Red].pos; else t = gamedata.carData[Blue].pos;
                 if (pp.x > t.x) pp.x -= force; else pp.x += force;
                 if (pp.y > t.y) pp.y -= force; else pp.y += force;
             }

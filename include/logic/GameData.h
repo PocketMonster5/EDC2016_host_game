@@ -2,9 +2,7 @@
 
 #include <string>
 
-
 #include "logic/Common.h"
-#include "communication/my_string.hpp"
 
 struct CarData
 {
@@ -65,10 +63,5 @@ struct GameData
         // ( call carData.getString()) and return all data 
     }
 
-	MyString getComunicationString() {
-		char s[20] = "TEST COMMUNICATION";
-		return MyString(s, 20);
-		// TODO IT LATER
-	}
 };
 

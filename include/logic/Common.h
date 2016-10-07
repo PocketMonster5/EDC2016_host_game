@@ -19,8 +19,8 @@ const double HP_INITIAL = 200;   // 初始血量
 const double HEALTH_PROP = 40;     // 道具瞬间回复血量
 
 // Plane 参数
-const double ATTACK_RADIUS = 50;    // 攻击半径
-const double HEAL_RADUIS = 75;     // 治疗半径
+const double RADIUS_PLANE_ATTACK = 50;    // 攻击半径
+const double RADUIS_PLANE_HEAL = 75;     // 治疗半径
 const int AIR_COMMAND_TIME = 100; // 制空权维持回合数
 const double PLANE_ATTACK = 0.8;     // 飞机一回合攻击值
 const double PLANE_HEAL = 0.4;       // 飞机一回合回复值
@@ -34,7 +34,7 @@ const int TARGET_CD = 30;           //多少回合不会出现塔
 
 // Prop 参数
 const double PROP_DISTANCE = 20;
-const double PROP_AVOID = 40;
+const double PROP_AVOID = 90;
 const double PROP_MARGIN = 20;
 const int PROP_CD = 30;         // 产生间隔3s
 const int PROP_ABANDON = 150;     // 15s没有被吃掉自动更新
