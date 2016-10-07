@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "Common.h"
+#include "logic/Common.h"
 
 class Plane {
 public:

@@ -15,40 +15,40 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include=".\include\Random.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Common.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Car.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Map.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Plane.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Game.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GameData.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Target.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Prop.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include=".\src\Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game.cpp">
+    <ClCompile Include="src\logic\Game.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\logic\Plane.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\logic\Prop.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\logic\Random.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\logic\Target.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\logic\Car.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\logic\Common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\logic\Game.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\logic\GameData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\logic\Map.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

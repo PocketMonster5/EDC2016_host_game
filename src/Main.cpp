@@ -1,8 +1,8 @@
 // Created by cyx15 & ty15, 2016.9
 
 
-#include"Game.h"
-#include"Random.hpp"
+#include"logic/Game.h"
+#include"logic/Random.hpp"
 
 #include <opencv2/opencv.hpp>
 #include <fstream>

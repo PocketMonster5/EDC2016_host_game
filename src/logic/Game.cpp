@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "logic/Game.h"
 #include <iostream>
 #include <vector>
 

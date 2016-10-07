@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include"Common.h"
+#include"logic/Common.h"
 
 class Target {
 public:

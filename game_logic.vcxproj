@@ -150,19 +150,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\Car.hpp" />
-    <ClInclude Include="include\Common.h" />
-    <ClInclude Include="include\GameData.h" />
-    <ClInclude Include="include\Map.hpp" />
-    <ClInclude Include="include\Plane.hpp" />
-    <ClInclude Include=".\include\Random.hpp" />
-    <ClInclude Include="include\Game.h" />
-    <ClInclude Include="include\Prop.hpp" />
-    <ClInclude Include="include\Target.hpp" />
+    <ClCompile Include=".\src\Main.cpp" />
+    <ClCompile Include="src\logic\Game.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include=".\src\Main.cpp" />
-    <ClCompile Include="src\Game.cpp" />
+    <ClInclude Include="include\logic\Car.hpp" />
+    <ClInclude Include="include\logic\Common.h" />
+    <ClInclude Include="include\logic\Game.h" />
+    <ClInclude Include="include\logic\GameData.h" />
+    <ClInclude Include="include\logic\Map.hpp" />
+    <ClInclude Include="include\logic\Plane.hpp" />
+    <ClInclude Include="include\logic\Prop.hpp" />
+    <ClInclude Include="include\logic\Random.hpp" />
+    <ClInclude Include="include\logic\Target.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

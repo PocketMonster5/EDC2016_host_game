@@ -10,7 +10,7 @@
 #include<cmath>
 #include<ctime>
 
-const int MAX_ROUND = 1800; //至多进行3000回合（限制比赛时间）
+const int MAX_ROUND = 1800; //至多进行回合（限制比赛时间）
 
 // Car 参数
 const double HP_DEATH = 0;       // 最低血量

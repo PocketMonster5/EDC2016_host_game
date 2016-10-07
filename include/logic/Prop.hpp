@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include "Common.h"
+#include "logic/Common.h"
 
 class Prop {
 

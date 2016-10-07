@@ -5,12 +5,12 @@
 #pragma once
 #include<fstream>
 
-#include"Common.h"
-#include"Car.hpp"
-#include"Map.hpp"
-#include"Plane.hpp"
-#include"Prop.hpp"
-#include"GameData.h"
+#include"logic/Common.h"
+#include"logic/Car.hpp"
+#include"logic/Map.hpp"
+#include"logic/Plane.hpp"
+#include"logic/Prop.hpp"
+#include"logic/GameData.h"
 
 //刷新所有（位置）
 //道具

@@ -3,8 +3,8 @@
 #include <string>
 
 
-#include "Common.h"
-#include "my_string.hpp"
+#include "logic/Common.h"
+#include "communication/my_string.hpp"
 
 struct CarData
 {

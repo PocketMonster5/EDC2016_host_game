@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include"Common.h"
-#include"Target.hpp"
-#include"Random.hpp"
+#include"logic/Common.h"
+#include"logic/Target.hpp"
+#include"logic/Random.hpp"
 
 #include<iostream>
 #include<fstream>
